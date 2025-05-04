@@ -21,15 +21,51 @@ var service = new NotesService();
 app.MapGet("/api/notes", () => { return service.GetNotes().ToArray(); })
     .WithName("GetNotes");
 
-app.MapGet("/api/notes/{guid:guid}", (Guid guid) => { return service.ByGuid(guid); })
+app.MapGet("/api/notes/{guid:guid}", (Guid guid) =>
+    {
+        var note = service.ByGuid(guid);
+
+        if (note == null)
+        {
+            return Results.NotFound();
+        }
+
+        return Results.Ok(note);
+    })
     .WithName("GetNote");
 
-app.MapPost("/api/notes", (Note note) => { service.AddNote(note); }).WithName("CrateNote");
+app.MapPost("/api/notes", (Note note) =>
+{
+    if (string.IsNullOrWhiteSpace(note.Title))
+    {
+        return Results.BadRequest("Title is required");
+    }
 
-app.MapPut("/api/notes/{guid:guid}", (Guid guid, Note updatedNote) => { service.UpdateNote(guid, updatedNote); })
+    service.AddNote(note);
+
+    return Results.Created($"/api/notes/{note.Id}", note);
+    
+}).WithName("CrateNote");
+
+app.MapPut("/api/notes/{guid:guid}", (Guid guid, Note updatedNote) =>
+    {
+        var note = service.UpdateNote(guid, updatedNote);
+
+        if (note == null)
+        {
+            return Results.NotFound();
+        }
+
+        return Results.Ok(note);
+    })
     .WithName("UpdateNote");
 
-app.MapDelete("/api/notes/{guid:guid}", (Guid guid) => { service.DeleteNote(guid); })
+app.MapDelete("/api/notes/{guid:guid}", (Guid guid) =>
+    {
+        service.DeleteNote(guid);
+
+        return Results.NoContent();
+    })
     .WithName("DeleteNote");
 
 app.Run();
