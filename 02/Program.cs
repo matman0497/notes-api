@@ -24,5 +24,12 @@ app.MapGet("/api/notes", () => { return service.GetNotes().ToArray(); })
 app.MapGet("/api/notes/{guid:guid}", (Guid guid) => { return service.ByGuid(guid); })
     .WithName("GetNote");
 
-app.MapPost("/api/notes", (Note note) => { service.AddNote(note); }).WithName("CrateNotes");
+app.MapPost("/api/notes", (Note note) => { service.AddNote(note); }).WithName("CrateNote");
+
+app.MapPut("/api/notes/{guid:guid}", (Guid guid, Note updatedNote) => { service.UpdateNote(guid, updatedNote); })
+    .WithName("UpdateNote");
+
+app.MapDelete("/api/notes/{guid:guid}", (Guid guid) => { service.DeleteNote(guid); })
+    .WithName("DeleteNote");
+
 app.Run();

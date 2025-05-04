@@ -6,12 +6,30 @@ public class NotesService
 
     public List<Note> GetNotes() => _notes;
 
-    public List<Note> ByGuid(Guid id) => _notes.Where(n => n.Id == id).ToList();
+    public Note ByGuid(Guid id) => _notes.First(n => n.Id == id);
 
     public Note AddNote(Note note)
     {
         _notes.Add(note);
 
         return note;
+    }
+    
+    public Note UpdateNote(Guid guid, Note updateNote)
+    {
+        var note = ByGuid(guid);
+        
+        note.Title = updateNote.Title;
+        note.Content = updateNote.Content;
+        note.UpdatedAt = DateTime.UtcNow;
+
+        return note;
+    }
+    
+    public void DeleteNote(Guid guid)
+    {
+        var note = ByGuid(guid);
+        
+        _notes.Remove(note);
     }
 }
