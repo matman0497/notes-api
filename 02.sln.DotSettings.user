@@ -12,6 +12,6 @@
 	
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=491d6125_002De2d9_002D4ddc_002D9f58_002D316cd8b11dce/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="TestAddNote" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
   &lt;TestAncestor&gt;
-    &lt;TestId&gt;xUnit::9EC68242-CE26-4EFA-BBF1-E6759CC4D499::net9.0::Tests.UnitTest1&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::9EC68242-CE26-4EFA-BBF1-E6759CC4D499::net9.0::Tests.NoteServiceTest&lt;/TestId&gt;
   &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>

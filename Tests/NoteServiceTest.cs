@@ -2,7 +2,7 @@
 
 using _02;
 
-public class UnitTest1
+public class NoteServiceTest
 {
     [Fact]
     public void TestAddNote()
