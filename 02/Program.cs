@@ -18,14 +18,17 @@ app.UseHttpsRedirection();
 
 var service = new NotesService();
 
-app.MapGet("/api/notes", (QueryFilter filters) =>
+app.MapGet("/api/notes", (HttpQuery filters) =>
     {
+        var notes = service.GetNotes();
         if (filters.HasFilters())
         {
-            return service.Filter(filters.GetFilters()).ToArray();
+            notes = service.Filter(filters.GetFilters());
         }
 
-        return service.GetNotes().ToArray();
+        notes = NotesService.Paginate(notes, filters.Page, filters.PageSize);
+
+        return notes.ToArray();
     })
     .WithName("GetNotes");
 

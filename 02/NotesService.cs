@@ -72,4 +72,9 @@ public class NotesService
 
         return filtered;
     }
+    
+    public static List<Note> Paginate(List<Note> notes, int page, int pageSize)
+    {
+        return notes.Skip(page*pageSize).Take(pageSize).ToList();
+    }
 }
