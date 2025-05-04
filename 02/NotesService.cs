@@ -2,7 +2,7 @@ namespace _02;
 
 public class NotesService
 {
-    List<Note> _notes = new List<Note>();
+    private List<Note> _notes = [];
 
     public List<Note> GetNotes() => _notes;
 
