@@ -18,21 +18,11 @@ app.UseHttpsRedirection();
 
 var service = new NotesService();
 
-app.MapGet("/api/notes", (HttpContext http) =>
+app.MapGet("/api/notes", (QueryFilter filters) =>
     {
-        var query = http.Request.Query.ToList();
-        var filters = new List<QueryFilter>();
-        if (query.Count > 0)
+        if (filters.HasFilters())
         {
-            foreach (var item in query)
-            {
-                filters.Add(new QueryFilter() { Key = item.Key, Value = item.Value.ToString() });
-            }
-        }
-
-        if (filters.Count > 0)
-        {
-            return service.Filter(filters).ToArray();
+            return service.Filter(filters.GetFilters()).ToArray();
         }
 
         return service.GetNotes().ToArray();
