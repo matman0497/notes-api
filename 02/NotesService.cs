@@ -53,4 +53,23 @@ public class NotesService
 
         _notes.Remove(note);
     }
+
+    public List<Note> Filter(List<QueryFilter> filters)
+    {
+        var filtered = _notes;
+        foreach (var filter in filters)
+        {
+            if (filter.Key == "title")
+            {
+                filtered = _notes.Where(n => n.Title.StartsWith(filter.Value)).ToList();
+            }
+            
+            if (filter.Key == "content")
+            {
+                filtered = _notes.Where(n => n.Title.Contains(filter.Value)).ToList();
+            }
+        }
+
+        return filtered;
+    }
 }

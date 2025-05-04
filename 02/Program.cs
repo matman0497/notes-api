@@ -18,7 +18,25 @@ app.UseHttpsRedirection();
 
 var service = new NotesService();
 
-app.MapGet("/api/notes", () => { return service.GetNotes().ToArray(); })
+app.MapGet("/api/notes", (HttpContext http) =>
+    {
+        var query = http.Request.Query.ToList();
+        var filters = new List<QueryFilter>();
+        if (query.Count > 0)
+        {
+            foreach (var item in query)
+            {
+                filters.Add(new QueryFilter() { Key = item.Key, Value = item.Value.ToString() });
+            }
+        }
+
+        if (filters.Count > 0)
+        {
+            return service.Filter(filters).ToArray();
+        }
+
+        return service.GetNotes().ToArray();
+    })
     .WithName("GetNotes");
 
 app.MapGet("/api/notes/{guid:guid}", (Guid guid) =>
@@ -44,7 +62,6 @@ app.MapPost("/api/notes", (Note note) =>
     service.AddNote(note);
 
     return Results.Created($"/api/notes/{note.Id}", note);
-    
 }).WithName("CrateNote");
 
 app.MapPut("/api/notes/{guid:guid}", (Guid guid, Note updatedNote) =>
