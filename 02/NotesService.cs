@@ -63,7 +63,7 @@ public class NotesService
             {
                 filtered = _notes.Where(n => n.Title.StartsWith(filter.Value)).ToList();
             }
-            
+
             if (filter.Key == "content")
             {
                 filtered = _notes.Where(n => n.Title.Contains(filter.Value)).ToList();
@@ -72,9 +72,9 @@ public class NotesService
 
         return filtered;
     }
-    
+
     public static List<Note> Paginate(List<Note> notes, int page, int pageSize)
     {
-        return notes.Skip(page*pageSize).Take(pageSize).ToList();
+        return notes.Skip(page * pageSize).Take(pageSize).ToList();
     }
 }
